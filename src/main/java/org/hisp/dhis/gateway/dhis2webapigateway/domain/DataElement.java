@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class DataElement {
-    private String displayName;
     private String id;
+    private String displayName;
     private List<DataElementGroup> dataElementGroups;
 }

@@ -7,4 +7,6 @@ import java.util.List;
 @Data
 public class DataElementGroup {
     private String id;
+    private String displayName;
+    private List<DataElement> dataElements;
 }
