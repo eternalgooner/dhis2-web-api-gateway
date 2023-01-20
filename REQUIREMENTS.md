@@ -9,10 +9,10 @@
         - [ ] define own data format for internal storage
     - [ ] make meta data above available for external consumption
         - [ ] expose through REST endpoints
-    - [ ] have DHIS2 instance configurable in properties e.g.
-        - [ ] dhis2.username = admin
-        - [ ] dhis2.password = district
-        - [ ] dhis2.url = https://play.dhis2.org/2.39.0.1
+    - [x] have DHIS2 instance configurable in properties e.g.
+        - [x] dhis2.username = admin
+        - [x] dhis2.password = district
+        - [x] dhis2.url = https://play.dhis2.org/2.39.0.1
     - [ ] add security through Spring Security
         - [ ] in-memory username/password
 
