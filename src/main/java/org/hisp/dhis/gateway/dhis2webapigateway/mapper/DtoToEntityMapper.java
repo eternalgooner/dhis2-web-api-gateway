@@ -19,19 +19,19 @@ import java.util.stream.Collectors;
 public class DtoToEntityMapper {
 
     // Data Elements
-    public Function<DataElementDTO, DataElement> toDeEntity = dataElementDTO -> DataElement.builder()
+    public Function<DataElementDTO, DataElement> dataElementDtoToEntity = dataElementDTO -> DataElement.builder()
             .id(dataElementDTO.getId())
             .displayName(dataElementDTO.getDisplayName())
             .dataElementGroups(dataElementDTO.getDataElementGroups().stream()
                     .map(deg -> DataElementGroup.builder().id(deg.getId()).build())
                     .collect(Collectors.toSet())).build();
 
-    public Function<DataElementsDTO, List<DataElement>> dhis2DataElementsDtoToEntities = dataElementsDTO ->
+    public Function<DataElementsDTO, List<DataElement>> dataElementsDtoToEntities = dataElementsDTO ->
             dataElementsDTO.getDataElements().stream()
-                    .map(toDeEntity).collect(Collectors.toList());
+                    .map(dataElementDtoToEntity).collect(Collectors.toList());
 
     // Data Element Groups
-    public Function<DataElementGroupDTO, DataElementGroup> toDegEntity = dataElementGroupDTO ->
+    public Function<DataElementGroupDTO, DataElementGroup> dataElementGroupDtoToEntity = dataElementGroupDTO ->
             DataElementGroup.builder()
                     .id(dataElementGroupDTO.getId())
                     .displayName(dataElementGroupDTO.getDisplayName())
@@ -39,7 +39,7 @@ public class DtoToEntityMapper {
                             .map(de -> DataElement.builder().id(de.getId()).build())
                             .collect(Collectors.toSet())).build();
 
-    public Function<DataElementGroupsDTO, List<DataElementGroup>> dhis2DataElementGroupsDtoToEntities = dataElementGroupsDTO ->
+    public Function<DataElementGroupsDTO, List<DataElementGroup>> dataElementGroupsDtoToEntities = dataElementGroupsDTO ->
             dataElementGroupsDTO.getDataElementGroups().stream()
-                    .map(toDegEntity).collect(Collectors.toList());
+                    .map(dataElementGroupDtoToEntity).collect(Collectors.toList());
 }

@@ -43,8 +43,8 @@ public class DbInitService {
         final DataElementGroupsDTO dataElementGroups = dhis2WebApiService.getDataElementGroups();
 
         log.info("converting DHIS2 web responses to entities");
-        final List<DataElement> dataElementEntities = dtoToEntityMapper.dhis2DataElementsDtoToEntities.apply(dataElements);
-        final List<DataElementGroup> dataElementGroupEntities = dtoToEntityMapper.dhis2DataElementGroupsDtoToEntities.apply(dataElementGroups);
+        final List<DataElement> dataElementEntities = dtoToEntityMapper.dataElementsDtoToEntities.apply(dataElements);
+        final List<DataElementGroup> dataElementGroupEntities = dtoToEntityMapper.dataElementGroupsDtoToEntities.apply(dataElementGroups);
 
         log.info("persisting DHIS2 data");
         dataElementRepository.saveAll(dataElementEntities);
