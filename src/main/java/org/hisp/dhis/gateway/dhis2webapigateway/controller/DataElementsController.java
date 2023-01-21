@@ -1,22 +1,27 @@
 package org.hisp.dhis.gateway.dhis2webapigateway.controller;
 
-import org.hisp.dhis.gateway.dhis2webapigateway.dto.api.DataElementsResponseDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.hisp.dhis.gateway.dhis2webapigateway.dto.api.dataelement.DataElementsResponseDTO;
+import org.hisp.dhis.gateway.dhis2webapigateway.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.hisp.dhis.gateway.dhis2webapigateway.config.CacheConfig.DATA_ELEMENTS_CACHE_KEY;
+import static org.hisp.dhis.gateway.dhis2webapigateway.config.CacheConfig.DATA_ELEMENTS_CACHE;
 
 @RestController
+@RequestMapping(path = "/api")
+@Slf4j
 public class DataElementsController {
 
-    @Autowired
-    private CacheManager cacheManager;
+    @Autowired private DataService dataService;
 
-    @GetMapping("/api/dataElements")
+    @Cacheable(DATA_ELEMENTS_CACHE)
+    @GetMapping("/dataElements")
     public DataElementsResponseDTO getDataElements() {
-        System.out.println("received call for data elements, get from cache");
-        return (DataElementsResponseDTO) cacheManager.getCache(DATA_ELEMENTS_CACHE_KEY);
+        log.info("received call for data elements, get from cache or DHIS2 if required");
+        return dataService.getData();
     }
 }

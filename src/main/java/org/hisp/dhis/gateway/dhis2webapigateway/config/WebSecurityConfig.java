@@ -43,25 +43,31 @@ public class WebSecurityConfig {
 //        }
 //    }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsService() {
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("password")
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests((auths) -> auths
-                    .antMatchers("/api/dataElements")
-                    .permitAll()
-                    .anyRequest().authenticated()
-            )
-            .httpBasic(withDefaults());
+        http.authorizeRequests()
+                .antMatchers("/h2-console/**")
+                .authenticated()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/dataElements")
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and().csrf().disable();
+
+        // to allow h2 to show in browser
+        http.headers().frameOptions().disable();
         return http.build();
     }
 
