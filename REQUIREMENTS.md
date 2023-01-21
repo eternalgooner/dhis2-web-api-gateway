@@ -3,10 +3,10 @@
 ## Functional
 - [ ] build integration service (Gateway) between DHIS2 Web API & an external service
     - [ ] fetch meta data from DHIS2
-        - [ ] data elements from /api/dataElements.json?paging=false&fields=id,displayName,dataElementGroups[id]
-        - [ ] data element groups from /api/dataElementGroups.json?paging=false&fields=id,displayName,dataElements[id]
+        - [x] data elements from /api/dataElements.json?paging=false&fields=id,displayName,dataElementGroups[id]
+        - [x] data element groups from /api/dataElementGroups.json?paging=false&fields=id,displayName,dataElements[id]
         - [ ] option to add more
-        - [ ] define own data format for internal storage
+        - [x] define own data format for internal storage
     - [ ] make meta data above available for external consumption
         - [ ] expose through REST endpoints
     - [x] have DHIS2 instance configurable in properties e.g.
@@ -22,15 +22,15 @@
     - [ ] mock DHIS2 instance
 
 ## Technical
-- [ ] use maven as build tool
-- [ ] use spring boot 2+
-- [ ] use Jackson for serdes
+- [x] use maven as build tool
+- [x] use spring boot 2+
+- [x] use Jackson for serdes
 - [ ] use spring security to secure endpoints
 - [ ] metadata from DHIS2 should be cached or persisted in the service
   - [ ] include javadoc to explain caching & persisting meta data
   - [ ] describe pros and cons of design
-    - [ ] expose 2 endpoints from the service
-      - [ ] /api/dataElements
+    - [x] expose 2 endpoints from the service
+      - [x] /api/dataElements
         ```json
         {
           "id": "id",
@@ -38,7 +38,7 @@
           "groups": ["group1", "group2"]
         }
         ```
-      - [ ] /api/dataElementGroups
+      - [x] /api/dataElementGroups
         ```json
         {
           "id": "id",
