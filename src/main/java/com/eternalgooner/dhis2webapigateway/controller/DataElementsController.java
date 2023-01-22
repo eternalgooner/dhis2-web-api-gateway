@@ -6,6 +6,7 @@ import com.eternalgooner.dhis2webapigateway.service.Dhis2DataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,14 +28,14 @@ public class DataElementsController {
     @Autowired private Dhis2DataService dhis2DataService;
 
     @Cacheable(DATA_ELEMENTS_CACHE)
-    @GetMapping("/dataElements")
+    @GetMapping(value = "/dataElements", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public DataElementsResponseDTO getDataElements() {
         log.info("received call for data elements, get from cache or DB if required");
         return dhis2DataService.getDataElements();
     }
 
     @Cacheable(DATA_ELEMENT_GROUPS_CACHE)
-    @GetMapping("/dataElementGroups")
+    @GetMapping(value = "/dataElementGroups", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public DataElementGroupsResponseDTO getDataElementGroups() {
         log.info("received call for data element groups, get from cache or DB if required");
         return dhis2DataService.getDataElementGroups();

@@ -52,4 +52,4 @@
     - [ ] default (\*/\*) should be JSON
 
 ## Optional tech requirements
-- [ ] document endpoints using spring rest docs or OpenAPI/Swagger
+- [x] document endpoints using spring rest docs or OpenAPI/Swagger
