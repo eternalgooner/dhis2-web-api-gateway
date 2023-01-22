@@ -1,0 +1,19 @@
+= Spring REST Docs
+
+Sample output for a service running at http://localhost:8080
+
+Data Elements endpoint
+
+.request
+include::{snippets}/data-elements/http-request.adoc[]
+
+.response
+include::{snippets}/data-elements/http-response.adoc[]
+
+Data Element Groups endpoint
+
+.request
+include::{snippets}/data-element-groups/http-request.adoc[]
+
+.response
+include::{snippets}/data-element-groups/http-response.adoc[]
