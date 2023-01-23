@@ -15,11 +15,10 @@ import java.util.stream.Collectors;
 /**
  * Mapper class using functions to map Entities to DTOs
  */
-@Component
 public class EntityToDtoMapper {
 
     // Data Elements functions
-    public Function<DataElement, DataElementResponseDTO> dataElEntityToDataElRespDto = dataElementEntity ->
+    public static Function<DataElement, DataElementResponseDTO> dataElEntityToDataElRespDto = dataElementEntity ->
             DataElementResponseDTO.builder()
                     .id(dataElementEntity.getId())
                     .name(dataElementEntity.getDisplayName())
@@ -27,14 +26,14 @@ public class EntityToDtoMapper {
                             .map(DataElementGroup::getDisplayName)
                             .collect(Collectors.toSet())).build();
 
-    public Function<List<DataElement>, DataElementsResponseDTO> dataElEntitiesToDto = dataElEntities ->
+    public static Function<List<DataElement>, DataElementsResponseDTO> dataElEntitiesToDto = dataElEntities ->
             DataElementsResponseDTO.builder()
                     .dataElements(dataElEntities.stream()
                             .map(dataElEntityToDataElRespDto).collect(Collectors.toSet())).build();
 
 
     // Data Element Groups functions
-    public Function<DataElementGroup, DataElementGroupResponseDTO> dataElGroupEntityToDataElGroupRespDto = dataElementGroupEntity ->
+    public static Function<DataElementGroup, DataElementGroupResponseDTO> dataElGroupEntityToDataElGroupRespDto = dataElementGroupEntity ->
             DataElementGroupResponseDTO.builder()
                     .id(dataElementGroupEntity.getId())
                     .name(dataElementGroupEntity.getDisplayName())
@@ -42,7 +41,7 @@ public class EntityToDtoMapper {
                             .map(DataElement::getDisplayName)
                             .collect(Collectors.toSet())).build();
 
-    public Function<List<DataElementGroup>, DataElementGroupsResponseDTO> dataElGroupEntitiesToDto = dataElGroupEntities ->
+    public static Function<List<DataElementGroup>, DataElementGroupsResponseDTO> dataElGroupEntitiesToDto = dataElGroupEntities ->
             DataElementGroupsResponseDTO.builder()
                     .members(dataElGroupEntities.stream().map(dataElGroupEntityToDataElGroupRespDto).collect(Collectors.toSet())).build();
 

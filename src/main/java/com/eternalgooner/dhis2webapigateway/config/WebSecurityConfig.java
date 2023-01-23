@@ -6,6 +6,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Security config which specifies which endpoints need authentication.
+ * Any future endpoint security requirements could be added here.
+ * CSRF & frame options have been set purely for local dev & wouldn't be allowed in production.
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -17,7 +22,7 @@ public class WebSecurityConfig {
                 .authenticated()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/dataElements")
+                .antMatchers("/api/**")
                 .authenticated()
                 .and()
                 .httpBasic()

@@ -1,15 +1,17 @@
 package com.eternalgooner.dhis2webapigateway.service;
 
+import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelement.DataElementsDTO;
 import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelementgroup.DataElementGroupsDTO;
 import lombok.extern.slf4j.Slf4j;
-import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelement.DataElementsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.Duration;
+
 /**
- * Service to make WEB API calls to DHIS2
+ * Class that makes async WEB API calls to 2 DHIS2 endpoints
  */
 @Service
 @Slf4j
@@ -31,7 +33,9 @@ public class Dhis2WebApiService {
                 .uri(dhis2DataElementsPath)
                 .retrieve()
                 .bodyToMono(DataElementsDTO.class)
-                .block();
+                .retry(3)
+                .doOnError(throwable -> log.error("Call to DHIS2 for Data Elements failed due to {}", throwable.getMessage()))
+                .timeout(Duration.ofSeconds(10)).block();
     }
 
     public DataElementGroupsDTO getDataElementGroups() {
@@ -41,6 +45,8 @@ public class Dhis2WebApiService {
                 .uri(dhis2DataElementGroupsPath)
                 .retrieve()
                 .bodyToMono(DataElementGroupsDTO.class)
-                .block();
+                .retry(3)
+                .doOnError(throwable -> log.error("Call to DHIS2 for Data Element Groups failed due to {}", throwable.getMessage()))
+                .timeout(Duration.ofSeconds(10)).block();
     }
 }

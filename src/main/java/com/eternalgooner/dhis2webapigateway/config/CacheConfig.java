@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Cache config which uses a configurable property to determine the expiry interval.
+ * The cache refresh interval would usually be driven by how often the data is likely to change.
+ * If the data is not likely to change we could have a much larger interval.
+ * We could also implement a mechanism whereby we refresh the cache on-demand.
+ */
 @Configuration
 public class CacheConfig {
 

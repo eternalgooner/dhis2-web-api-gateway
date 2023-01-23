@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
@@ -42,7 +43,8 @@ public class DataElementsControllerIT {
                 .groups(Set.of("group 1", "group 2")).build();
         DataElementsResponseDTO dataElementsResponseDTO = DataElementsResponseDTO.builder()
                 .dataElements(Set.of(dataElementResponseDTO)).build();
-        when(dhis2DataService.getDataElements()).thenReturn(dataElementsResponseDTO);
+
+        when(dhis2DataService.getDataElements()).thenReturn(Mono.just(dataElementsResponseDTO));
 
         webTestClient.get()
                 .uri("/api/dataElements")
@@ -65,7 +67,7 @@ public class DataElementsControllerIT {
                 .members(Set.of("element 1", "element 2")).build();
         DataElementGroupsResponseDTO dataElementGroupsResponseDTO = DataElementGroupsResponseDTO.builder()
                 .members(Set.of(dataElementGroupResponseDTO)).build();
-        when(dhis2DataService.getDataElementGroups()).thenReturn(dataElementGroupsResponseDTO);
+        when(dhis2DataService.getDataElementGroups()).thenReturn(Mono.just(dataElementGroupsResponseDTO));
 
         webTestClient.get()
                 .uri("/api/dataElementGroups")

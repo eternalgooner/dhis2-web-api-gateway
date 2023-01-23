@@ -1,4 +1,4 @@
-= Spring REST Docs
+= DHIS2 Web API Gateway - Spring REST Docs
 
 Sample output for a service running at http://localhost:8080
 

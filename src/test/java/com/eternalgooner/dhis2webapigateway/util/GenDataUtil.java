@@ -1,6 +1,7 @@
 package com.eternalgooner.dhis2webapigateway.util;
 
 import com.eternalgooner.dhis2webapigateway.dto.api.dataelement.DataElementResponseDTO;
+import com.eternalgooner.dhis2webapigateway.dto.api.dataelementgroup.DataElementGroupResponseDTO;
 import com.eternalgooner.dhis2webapigateway.entity.DataElement;
 import com.eternalgooner.dhis2webapigateway.entity.DataElementGroup;
 import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelement.DataElementDTO;
@@ -54,5 +55,12 @@ public class GenDataUtil {
                 .id(id)
                 .name(name)
                 .groups(groups).build();
+    }
+
+    public static DataElementGroupResponseDTO genDataElementGroupResponseDto(String id, String name, Set<String> members) {
+        return DataElementGroupResponseDTO.builder()
+                .id(id)
+                .name(name)
+                .members(members).build();
     }
 }

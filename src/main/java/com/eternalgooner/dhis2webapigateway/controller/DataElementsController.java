@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import static com.eternalgooner.dhis2webapigateway.config.CacheConfig.DATA_ELEMENTS_CACHE;
 import static com.eternalgooner.dhis2webapigateway.config.CacheConfig.DATA_ELEMENT_GROUPS_CACHE;
@@ -29,14 +30,14 @@ public class DataElementsController {
 
     @Cacheable(DATA_ELEMENTS_CACHE)
     @GetMapping(value = "/dataElements", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public DataElementsResponseDTO getDataElements() {
+    public Mono<DataElementsResponseDTO> getDataElements() {
         log.info("received call for data elements, get from cache or DB if required");
         return dhis2DataService.getDataElements();
     }
 
     @Cacheable(DATA_ELEMENT_GROUPS_CACHE)
     @GetMapping(value = "/dataElementGroups", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public DataElementGroupsResponseDTO getDataElementGroups() {
+    public Mono<DataElementGroupsResponseDTO> getDataElementGroups() {
         log.info("received call for data element groups, get from cache or DB if required");
         return dhis2DataService.getDataElementGroups();
     }

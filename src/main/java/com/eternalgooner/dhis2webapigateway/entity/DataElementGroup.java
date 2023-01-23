@@ -3,6 +3,7 @@ package com.eternalgooner.dhis2webapigateway.entity;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.Set;
@@ -18,7 +19,7 @@ public class DataElementGroup {
     private String id;
     private String displayName;
 
-    @ManyToMany(mappedBy = "dataElementGroups")
+    @ManyToMany(mappedBy = "dataElementGroups", fetch = FetchType.EAGER)
     private Set<DataElement> dataElements;
 
     public void setDataElements(Set<DataElement> dataElements) {

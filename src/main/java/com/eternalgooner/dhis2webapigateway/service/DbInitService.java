@@ -1,19 +1,20 @@
 package com.eternalgooner.dhis2webapigateway.service;
 
-import com.eternalgooner.dhis2webapigateway.entity.DataElement;
-import com.eternalgooner.dhis2webapigateway.mapper.DtoToEntityMapper;
-import com.eternalgooner.dhis2webapigateway.repository.DataElementGroupRepository;
-import lombok.extern.slf4j.Slf4j;
 import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelement.DataElementsDTO;
 import com.eternalgooner.dhis2webapigateway.dto.dhis2.dataelementgroup.DataElementGroupsDTO;
+import com.eternalgooner.dhis2webapigateway.entity.DataElement;
 import com.eternalgooner.dhis2webapigateway.entity.DataElementGroup;
+import com.eternalgooner.dhis2webapigateway.mapper.DtoToEntityMapper;
+import com.eternalgooner.dhis2webapigateway.repository.DataElementGroupRepository;
 import com.eternalgooner.dhis2webapigateway.repository.DataElementRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * This Service initialises the in-memory database on startup
@@ -34,12 +35,12 @@ public class DbInitService {
     @Autowired
     private DataElementGroupRepository dataElementGroupRepository;
 
-    @Autowired
-    private DtoToEntityMapper dtoToEntityMapper;
-
     @Value("${db.init.on.startup.enabled}")
     private boolean initDbOnStartup;
 
+    /**
+     * Initialise the DB with data on startup
+     */
     @PostConstruct
     public void initDb() {
         if(initDbOnStartup) {
@@ -49,15 +50,28 @@ public class DbInitService {
 
     public void getDhis2DataAndLoadIntoDb() {
         log.info("making calls to DHIS2 for data");
-        final DataElementsDTO dataElements = dhis2WebApiService.getDataElements();
-        final DataElementGroupsDTO dataElementGroups = dhis2WebApiService.getDataElementGroups();
-
-        log.info("converting DHIS2 web responses to entities");
-        final List<DataElement> dataElementEntities = dtoToEntityMapper.dataElementsDtoToEntities.apply(dataElements);
-        final List<DataElementGroup> dataElementGroupEntities = dtoToEntityMapper.dataElementGroupsDtoToEntities.apply(dataElementGroups);
-
-        log.info("persisting DHIS2 data");
-        dataElementRepository.saveAll(dataElementEntities);
-        dataElementGroupRepository.saveAll(dataElementGroupEntities);
+        try {
+            processDataElementsWebResult.accept(dhis2WebApiService.getDataElements());
+            processDataElementGroupsWebResult.accept(dhis2WebApiService.getDataElementGroups());
+        } catch (Exception e) {
+            log.error("Exception while calling DHIS2 {}", e.getMessage());
+        }
     }
+
+    /**
+     * Consumers that process the web requests once received
+     */
+    private final Consumer<DataElementsDTO> processDataElementsWebResult = dataElementsDTO -> {
+        log.info("converting DHIS2 Data Elements web response to entities");
+        final List<DataElement> dataElementEntities = DtoToEntityMapper.dataElementsDtoToEntities.apply(dataElementsDTO);
+        log.info("persisting DHIS2 Data Elements");
+        dataElementRepository.saveAll(dataElementEntities);
+    };
+
+    private final Consumer<DataElementGroupsDTO> processDataElementGroupsWebResult = dataElementGroupsDTO -> {
+        log.info("converting DHIS2 Data Element Groups web response to entities");
+        final List<DataElementGroup> dataElementEntities = DtoToEntityMapper.dataElementGroupsDtoToEntities.apply(dataElementGroupsDTO);
+        log.info("persisting DHIS2 Data Element Groups");
+        dataElementGroupRepository.saveAll(dataElementEntities);
+    };
 }

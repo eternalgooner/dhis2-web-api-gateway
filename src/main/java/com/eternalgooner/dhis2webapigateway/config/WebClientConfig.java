@@ -9,6 +9,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication;
 
+/**
+ * Simple Web Client using basic auth
+ */
 @Configuration
 public class WebClientConfig {
 

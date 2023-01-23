@@ -17,7 +17,7 @@
         - [x] in-memory username/password
 
 ## Non-functional
-- [ ] test service with mocked payloads
+- [x] test service with mocked payloads
     - [x] at least 1 integration test
     - [x] mock DHIS2 instance
 
@@ -27,8 +27,8 @@
 - [x] use Jackson for serdes
 - [x] use spring security to secure endpoints
 - [ ] metadata from DHIS2 should be cached or persisted in the service
-  - [ ] include javadoc to explain caching & persisting meta data
-  - [ ] describe pros and cons of design
+  - [x] include javadoc to explain caching & persisting meta data
+  - [x] describe pros and cons of design
     - [x] expose 2 endpoints from the service
       - [x] /api/dataElements
         ```json
@@ -46,10 +46,10 @@
           "members": ["dataElement1", "dataElement2"]
         }
         ```
-- [ ] endpoint formats should be resolved
+- [x] endpoint formats should be resolved
     - [ ] looking at the file extension first
-    - [ ] then the Accept header
-    - [ ] default (\*/\*) should be JSON
+    - [x] then the Accept header
+    - [x] default (\*/\*) should be JSON
 
 ## Optional tech requirements
 - [x] document endpoints using spring rest docs or OpenAPI/Swagger
